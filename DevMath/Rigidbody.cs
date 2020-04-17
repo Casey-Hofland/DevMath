@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DevMath
+﻿namespace DevMath
 {
     public class Rigidbody
     {
@@ -19,7 +13,8 @@ namespace DevMath
 
         public void AddForce(Vector2 forceDirection, float deltaTime)
         {
-            throw new NotImplementedException();
+            Velocity += forceDirection / mass * deltaTime;
+            Velocity -= Velocity * dragCoefficient / mass * deltaTime; // This should actually happen in a general fixed update loop
         }
     }
 }

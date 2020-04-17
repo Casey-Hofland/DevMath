@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DevMath
+﻿namespace DevMath
 {
     public class Circle
     {
@@ -18,9 +12,6 @@ namespace DevMath
             get; set;
         }
 
-        public bool CollidesWith(Circle circle)
-        {
-            throw new NotImplementedException();
-        }
+        public bool CollidesWith(Circle circle) => Vector2.Distance(this.Position, circle.Position) < this.Radius + circle.Radius;
     }
 }
