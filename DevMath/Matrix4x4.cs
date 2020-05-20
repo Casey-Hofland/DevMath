@@ -16,38 +16,64 @@ namespace DevMath
             new Vector4(0, 0, 1, 0),
             new Vector4(0, 0, 0, 1));
 
-        private float[,] matrix;
+        private Vector4 column0;
+        private Vector4 column1;
+        private Vector4 column2;
+        private Vector4 column3;
 
         public float this[int row, int column]
         {
-            get => matrix[row, column];
-            set => this[row, column] = value;
+            get => column == 0 ? column0[row] : column == 1 ? column1[row] : column == 2 ? column2[row] : column == 3 ? column3[row] : throw new IndexOutOfRangeException();
+            set
+            {
+                if(column == 0)
+                {
+                    column0[row] = value;
+                    return;
+                }
+                else if(column == 1)
+                {
+                    column1[row] = value;
+                    return;
+                }
+                else if(column == 2)
+                {
+                    column2[row] = value;
+                    return;
+                }
+                else if(column == 3)
+                {
+                    column3[row] = value;
+                    return;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
         }
 
         public Matrix4x4(Vector4 column0, Vector4 column1, Vector4 column2, Vector4 column3)
         {
-            matrix = new float[4,4] 
-            {
-                { column0[0], column1[0], column2[0], column3[0] },
-                { column0[1], column1[1], column2[1], column3[1] },
-                { column0[2], column1[2], column2[2], column3[2] },
-                { column0[3], column1[3], column2[3], column3[3] },
-            };
+            this.column0 = column0;
+            this.column1 = column1;
+            this.column2 = column2;
+            this.column3 = column3;
         }
 
         public float Determinant =>
-               matrix[0, 3] * matrix[1, 2] * matrix[2, 1] * matrix[3, 0] - matrix[0, 2] * matrix[1, 3] * matrix[2, 1] * matrix[3, 0] -
-               matrix[0, 3] * matrix[1, 1] * matrix[2, 2] * matrix[3, 0] + matrix[0, 1] * matrix[1, 3] * matrix[2, 2] * matrix[3, 0] +
-               matrix[0, 2] * matrix[1, 1] * matrix[2, 3] * matrix[3, 0] - matrix[0, 1] * matrix[1, 2] * matrix[2, 3] * matrix[3, 0] -
-               matrix[0, 3] * matrix[1, 2] * matrix[2, 0] * matrix[3, 1] + matrix[0, 2] * matrix[1, 3] * matrix[2, 0] * matrix[3, 1] +
-               matrix[0, 3] * matrix[1, 0] * matrix[2, 2] * matrix[3, 1] - matrix[0, 0] * matrix[1, 3] * matrix[2, 2] * matrix[3, 1] -
-               matrix[0, 2] * matrix[1, 0] * matrix[2, 3] * matrix[3, 1] + matrix[0, 0] * matrix[1, 2] * matrix[2, 3] * matrix[3, 1] +
-               matrix[0, 3] * matrix[1, 1] * matrix[2, 0] * matrix[3, 2] - matrix[0, 1] * matrix[1, 3] * matrix[2, 0] * matrix[3, 2] -
-               matrix[0, 3] * matrix[1, 0] * matrix[2, 1] * matrix[3, 2] + matrix[0, 0] * matrix[1, 3] * matrix[2, 1] * matrix[3, 2] +
-               matrix[0, 1] * matrix[1, 0] * matrix[2, 3] * matrix[3, 2] - matrix[0, 0] * matrix[1, 1] * matrix[2, 3] * matrix[3, 2] -
-               matrix[0, 2] * matrix[1, 1] * matrix[2, 0] * matrix[3, 3] + matrix[0, 1] * matrix[1, 2] * matrix[2, 0] * matrix[3, 3] +
-               matrix[0, 2] * matrix[1, 0] * matrix[2, 1] * matrix[3, 3] - matrix[0, 0] * matrix[1, 2] * matrix[2, 1] * matrix[3, 3] -
-               matrix[0, 1] * matrix[1, 0] * matrix[2, 2] * matrix[3, 3] + matrix[0, 0] * matrix[1, 1] * matrix[2, 2] * matrix[3, 3];
+               this[0, 3] * this[1, 2] * this[2, 1] * this[3, 0] - this[0, 2] * this[1, 3] * this[2, 1] * this[3, 0] -
+               this[0, 3] * this[1, 1] * this[2, 2] * this[3, 0] + this[0, 1] * this[1, 3] * this[2, 2] * this[3, 0] +
+               this[0, 2] * this[1, 1] * this[2, 3] * this[3, 0] - this[0, 1] * this[1, 2] * this[2, 3] * this[3, 0] -
+               this[0, 3] * this[1, 2] * this[2, 0] * this[3, 1] + this[0, 2] * this[1, 3] * this[2, 0] * this[3, 1] +
+               this[0, 3] * this[1, 0] * this[2, 2] * this[3, 1] - this[0, 0] * this[1, 3] * this[2, 2] * this[3, 1] -
+               this[0, 2] * this[1, 0] * this[2, 3] * this[3, 1] + this[0, 0] * this[1, 2] * this[2, 3] * this[3, 1] +
+               this[0, 3] * this[1, 1] * this[2, 0] * this[3, 2] - this[0, 1] * this[1, 3] * this[2, 0] * this[3, 2] -
+               this[0, 3] * this[1, 0] * this[2, 1] * this[3, 2] + this[0, 0] * this[1, 3] * this[2, 1] * this[3, 2] +
+               this[0, 1] * this[1, 0] * this[2, 3] * this[3, 2] - this[0, 0] * this[1, 1] * this[2, 3] * this[3, 2] -
+               this[0, 2] * this[1, 1] * this[2, 0] * this[3, 3] + this[0, 1] * this[1, 2] * this[2, 0] * this[3, 3] +
+               this[0, 2] * this[1, 0] * this[2, 1] * this[3, 3] - this[0, 0] * this[1, 2] * this[2, 1] * this[3, 3] -
+               this[0, 1] * this[1, 0] * this[2, 2] * this[3, 3] + this[0, 0] * this[1, 1] * this[2, 2] * this[3, 3];
 
         public Matrix4x4 Inverse
         {
@@ -87,12 +113,35 @@ namespace DevMath
 
         public static Matrix4x4 operator *(Matrix4x4 lhs, Matrix4x4 rhs)
         {
-            throw new NotImplementedException();
+            Matrix4x4 matrix4X4 = zero;
+
+            for(int row = 0; row < 4; row++)
+            {
+                for(int column = 0; column < 4; column++)
+                {
+                    for(int x = 0; x < 4; x++)
+                    {
+                        matrix4X4[row, column] += lhs[row, x] * rhs[x, column];
+                    }
+                }
+            }
+
+            return matrix4X4;
         }
 
         public static Vector4 operator *(Matrix4x4 lhs, Vector4 rhs)
         {
-            throw new NotImplementedException();
+            Vector4 vector = Vector4.zero;
+
+            for(int row = 0; row < 4; row++)
+            {
+                for(int column = 0; column < 4; column++)
+                {
+                    vector[row] += lhs[row, column] * rhs[column];
+                }
+            }
+
+            return vector;
         }
 
         public static bool operator !=(Matrix4x4 lhs, Matrix4x4 rhs) => !(lhs == rhs);
@@ -110,19 +159,19 @@ namespace DevMath
         public override int GetHashCode()
         {
             return (
-                matrix[0, 0], matrix[0, 1], matrix[0, 2], matrix[0, 3],
-                matrix[1, 0], matrix[1, 1], matrix[1, 2], matrix[1, 3],
-                matrix[2, 0], matrix[2, 1], matrix[2, 2], matrix[2, 3],
-                matrix[3, 0], matrix[3, 1], matrix[3, 2], matrix[3, 3]).GetHashCode();
+                this[0, 0], this[0, 1], this[0, 2], this[0, 3],
+                this[1, 0], this[1, 1], this[1, 2], this[1, 3],
+                this[2, 0], this[2, 1], this[2, 2], this[2, 3],
+                this[3, 0], this[3, 1], this[3, 2], this[3, 3]).GetHashCode();
         }
 
         public override string ToString()
         {
             return 
-$@"{matrix[0, 0]}, {matrix[0, 1]}, {matrix[0, 2]}, {matrix[0, 3]}
-{matrix[1, 0]}, {matrix[1, 1]}, {matrix[1, 2]}, {matrix[1, 3]}
-{matrix[2, 0]}, {matrix[2, 1]}, {matrix[2, 2]}, {matrix[2, 3]}
-{matrix[3, 0]}, {matrix[3, 1]}, {matrix[3, 2]}, {matrix[3, 3]}";
+$@"{this[0, 0]}, {this[0, 1]}, {this[0, 2]}, {this[0, 3]}
+{this[1, 0]}, {this[1, 1]}, {this[1, 2]}, {this[1, 3]}
+{this[2, 0]}, {this[2, 1]}, {this[2, 2]}, {this[2, 3]}
+{this[3, 0]}, {this[3, 1]}, {this[3, 2]}, {this[3, 3]}";
         }
     }
 }

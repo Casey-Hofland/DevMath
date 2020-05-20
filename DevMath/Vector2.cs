@@ -12,7 +12,23 @@ namespace DevMath
         public float this[int key]
         {
             get => key == 0 ? x : key == 1 ? y : throw new IndexOutOfRangeException();
-            set => this[key] = value;
+            set
+            {
+                if(key == 0)
+                {
+                    x = value;
+                    return;
+                }
+                else if(key == 1)
+                {
+                    y = value;
+                    return;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
         }
 
         public float SquaredMagnitude => (x * x) + (y * y);
@@ -60,6 +76,7 @@ namespace DevMath
         public static Vector2 DirectionFromRadians(float radians) => new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
 
         public static float Distance(Vector2 v, Vector2 w) => (v - w).Magnitude;
+        public static float SquaredDistance(Vector2 v, Vector2 w) => (v - w).SquaredMagnitude;
 
         public static Vector2 operator +(Vector2 lhs, Vector2 rhs) => new Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
         public static Vector2 operator -(Vector2 lhs, Vector2 rhs) => new Vector2(lhs.x - rhs.x, lhs.y - rhs.y);

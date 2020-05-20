@@ -12,6 +12,6 @@
             get; set;
         }
 
-        public bool CollidesWith(Circle circle) => Vector2.Distance(this.Position, circle.Position) < this.Radius + circle.Radius;
+        public bool CollidesWith(Circle circle) => Vector2.SquaredDistance(this.Position, circle.Position) < this.Radius * this.Radius + circle.Radius * circle.Radius;
     }
 }

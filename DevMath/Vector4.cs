@@ -18,7 +18,33 @@ namespace DevMath
         public float this[int key]
         {
             get => key == 0 ? x : key == 1 ? y : key == 2 ? z : key == 3 ? w : throw new IndexOutOfRangeException();
-            set => this[key] = value;
+            set
+            {
+                if(key == 0)
+                {
+                    x = value;
+                    return;
+                }
+                else if(key == 1)
+                {
+                    y = value;
+                    return;
+                }
+                else if(key == 2)
+                {
+                    z = value;
+                    return;
+                }
+                else if(key == 3)
+                {
+                    w = value;
+                    return;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
         }
 
         public float SquaredMagnitude => (x * x) + (y * y) + (z * z) + (w * w);
@@ -61,6 +87,9 @@ namespace DevMath
             float uW = DevMath.LerpUnclamped(a.w, b.w, t);
             return new Vector4(uX, uY, uZ, uW);
         }
+
+        public static float Distance(Vector4 v, Vector4 w) => (v - w).Magnitude;
+        public static float SquaredDistance(Vector4 v, Vector4 w) => (v - w).SquaredMagnitude;
 
         public static Vector4 operator +(Vector4 lhs, Vector4 rhs) => new Vector4(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
         public static Vector4 operator -(Vector4 lhs, Vector4 rhs) => new Vector4(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
